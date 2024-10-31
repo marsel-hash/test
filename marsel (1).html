@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>welcome:)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            background-color: #f0f0f0;
+        }
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 1rem;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .sidebar h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        .sidebar ul li a:hover {
+            background-color: #444;
+        }
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+        /* Content */
+        .content {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            padding: 2rem;
+            background-color: #f0f0f0;
+            min-height: 100vh;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: calc(100% - 260px);
+            left: 260px;
+        }
+        /* Form Section Styling */
+        .form-section form, .poll-section form {
+            max-width: 500px;
+            margin: 1rem auto;
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-section form input, .form-section form textarea, .poll-section form button {
+            width: 100%;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .poll-section form button {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .poll-section form button:hover {
+            background-color: #555;
+        }
+        .results {
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .results h3 {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .results div {
+            margin: 5px 0;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Marsel</h2>
+        <ul>
+            <li><a href="#about" onclick="showSection('about')"><i class="fas fa-user"></i> About Me</a></li>
+            <li><a href="#send" onclick="showSection('send')"><i class="fas fa-paper-plane"></i> Send Me Something</a></li>
+            <li><a href="#poll" onclick="showSection('poll')"><i class="fas fa-chart-pie"></i> How Do You Know Me?</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- About Me Section -->
+        <section id="about" class="section about-section active">
+            <h2>About Me</h2>
+            <p>Hello, I'm Marsel and I'm a student at a school in Indonesia.
+              I am a programmer and I also understand about electricity.
+              Send me a message on the option on the left!!!!</p>
+        </section>
+
+        <!-- Send Me Something Section -->
+        <section id="send" class="section form-section">
+            <h2>Send Me Something</h2>
+            <p>You can send a message anonymously via the following link:</p>
+            <a href="https://ngl.link/m91242" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; transition: background 0.3s;">send me a message</a>
+        </section>
+
+
+        <!-- Poll Section -->
+        <section id="poll" class="section poll-section">
+            <h2>How Do You Know Me?</h2>
+            <form id="pollForm" onsubmit="submitPoll(event)">
+                <label><input type="radio" name="poll" value="school" required> From School</label><br>
+                <label><input type="radio" name="poll" value="internet"> Internet</label><br>
+                <label><input type="radio" name="poll" value="idk"> I DONT KNOW</label><br>
+                <button type="submit">Submit</button>
+            </form>
+            <div class="results" id="pollResults">
+                <!-- Persentase hasil akan ditampilkan di sini -->
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 My Personal Website-Marsel</p>
+    </footer>
+
+    <script>
+        // Fungsi untuk mengatur tampilan section aktif
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(function(sec) {
+                sec.classList.remove('active');
+            });
+            document.getElementById(section).classList.add('active');
+        }
+
+        // Fungsi untuk mengirim pesan (simulasi, hanya menampilkan alert)
+        function sendMessage(event) {
+            event.preventDefault();
+            alert("Pesan telah dikirim secara anonim!");
+            document.getElementById('messageForm').reset();
+        }
+
+        // Fungsi untuk submit polling
+        const pollResults = { school: 0, internet: 0, idk: 0 };
+
+        function submitPoll(event) {
+            event.preventDefault();
+            const choice = document.querySelector('input[name="poll"]:checked').value;
+            pollResults[choice]++;
+            updatePollResults();
+        }
+
+        // Fungsi untuk menghitung persentase polling dan menampilkan hasil
+        function updatePollResults() {
+            const totalVotes = pollResults.school + pollResults.internet + pollResults.idk;
+            const schoolPercent = ((pollResults.school / totalVotes) * 100).toFixed(1);
+            const internetPercent = ((pollResults.internet / totalVotes) * 100).toFixed(1);
+            const idkPercent = ((pollResults.idk / totalVotes) * 100).toFixed(1);
+
+            // Menemukan hasil dengan persentase tertinggi
+            let mostSelected = "From School";
+            let highestPercent = schoolPercent;
+            if (internetPercent > highestPercent) {
+                mostSelected = "Internet";
+                highestPercent = internetPercent;
+            }
+            if (idkPercent > highestPercent) {
+                mostSelected = "IDK";
+                highestPercent = idkPercent;
+            }
+
+            document.getElementById('pollResults').innerHTML = `
+                <h3>Most Selected: ${mostSelected}</h3>
+                <div>From School: ${schoolPercent}%</div>
+                <div>Internet: ${internetPercent}%</div>
+                <div>IDK: ${idkPercent}%</div>
+            `;
+            document.getElementById('pollForm').reset();
+        }
+    </script>
+</body>
+</html>
